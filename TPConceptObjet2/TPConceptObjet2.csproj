@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6E7EBD9A-8CB3-4BBE-A7A9-84A36C64F5B6}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProjetDLL</RootNamespace>
-    <AssemblyName>ProjetDLL</AssemblyName>
+    <ProjectGuid>{D4F5D4DC-0188-41FC-9912-B497B601C47E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TPConceptObjet2</RootNamespace>
+    <AssemblyName>TPConceptObjet2</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,20 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConceptsObjets\Abstraction\Femme.cs" />
-    <Compile Include="ConceptsObjets\Abstraction\Homme.cs" />
-    <Compile Include="ConceptsObjets\Abstraction\Personne.cs" />
-    <Compile Include="ConceptsObjets\Association\Adresse.cs" />
-    <Compile Include="ConceptsObjets\Association\Client.cs" />
-    <Compile Include="ConceptsObjets\Encapsulation\CompteBancaire.cs" />
-    <Compile Include="ConceptsObjets\Encapsulation\Rectangle.cs" />
-    <Compile Include="ConceptsObjets\Heritage\Animal.cs" />
-    <Compile Include="ConceptsObjets\Heritage\Chat.cs" />
-    <Compile Include="ConceptsObjets\Heritage\Chien.cs" />
-    <Compile Include="ConceptsObjets\Interfaces\IPliable.cs" />
-    <Compile Include="Exceptions\SoldeInsuffisantException.cs" />
-    <Compile Include="Tools.cs" />
+    <Compile Include="Consultant.cs" />
+    <Compile Include="Dev.cs" />
+    <Compile Include="Manager.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Salarie.cs" />
+    <Compile Include="SalarieManage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
