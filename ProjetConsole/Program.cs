@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using ProjetDLL;
 using ProjetDLL.ConceptsObjets.Abstraction;
 using ProjetDLL.ConceptsObjets.Association;
@@ -677,8 +678,112 @@ namespace ProjetConsole
                 {
                     Console.WriteLine(cpt.ToString());
                 }
-            } 
-            
+            }
+
+            #endregion
+
+            #region Fichiers
+            Console.WriteLine("---------------Fichier-----------------");
+            //.net nous fournit un certain nombre de classes qui nous permettent de manipuler les fichiers et les dossiers
+            //Dossier: Directory
+            //Fichier: File et FileInfo (présentent pratiquement les mêmes méthodes à la seule différence qu'elles sont static pour File et d'instance pour FileInfo
+            //Pour les opérations de lecture et d'écriture: StreamReader et StreamWriter
+
+            //Caractères d'échappement \n: retour à la ligne - \t: tabulation - \\: échapper le \
+
+            //chaine verbatim : permet d'indiquer qu'on veut que le paragraphe soit traduit tel quel
+            Console.WriteLine(@"    Bonjour,
+Je suis en formation chez Dawan.
+Formation c#");
+
+            //Création d'un répertoire
+            Directory.CreateDirectory("dossier"); //chemin relatif à l'executable du projet bin/debug
+            Directory.CreateDirectory("c:\\dossier"); //chemin absolu
+
+            //Récupérer les fichiers d'un dossier
+            string[] files = Directory.GetFiles("c:\\rep");
+
+            foreach (var f in files)
+            {
+                Console.WriteLine(f);
+            }
+
+            string fichierSource = "c:\\rep\\fichier.txt";
+            string fichierCible = "c:\\rep\\fichierCopie.txt";
+
+            try
+            {
+                File.Copy(fichierSource, fichierCible);
+            }
+            catch (Exception e)
+            {
+                if (File.Exists(fichierCible))
+                {
+                    File.Delete(fichierCible);
+                }
+                Console.WriteLine(e.Message);
+            }
+
+            //Utilisation de FileInfo pour récupérer les infos concernant un fichier particulier
+            FileInfo info = new FileInfo(fichierSource);
+            Console.WriteLine("Date de création du fichier: " + info.CreationTime);
+            Console.WriteLine("Date de dernière modification du fichier: " + info.LastWriteTime);
+            Console.WriteLine("Date de dernier accès au fichier: " + info.LastAccessTime);
+            Console.WriteLine("Extension du fichier: " + info.Extension);
+            Console.WriteLine("Taille du fichier: " + info.Length);
+
+            //Lecture - Ecriture de fichiers
+            //Flux : canal entre la source et la destination
+            //1- Charger le fichier dans un flux (lecture ou écriture)
+            //2- Exécuter les opérations (lecture ou écriture)
+            //3- Libérer/Fermer le flux
+            string chemin = "c:\\rep\\ecriture.txt";
+            StreamWriter sw = new StreamWriter(chemin);
+            sw.Write("ceci est mon texte.................");
+            sw.Close();
+
+            StreamReader sr = new StreamReader(chemin);
+            string contenu = sr.ReadToEnd();
+            sr.Close();
+            Console.WriteLine(contenu);
+
+            //Utilisation de la classe Tools définie dans le projet DLL
+            Tools.Ecrire(@"c:\rep\test.txt", "contenu du fichier test.txt");
+            Console.WriteLine(Tools.Lire(@"c:\rep\test.txt"));
+
+            #endregion
+
+            #region Serialisation
+            Console.WriteLine("--------------------Serialisation----------------------");
+            //C'est un mécanisme qui nou permet de sauvegarder un objet dans un fichier
+            //3 types de sérialisation
+            //Binaire : BinaryFormatter
+            //XML : XMLSerializer
+            //JSON : DataContractJsonSerializer
+
+            List<CompteBancaire> comptesBancaires = new List<CompteBancaire>();
+            Tools.ExportBIN(@"c:\rep\comptes.bin", mesComptes["crediteurs"]);
+
+            List<CompteBancaire> listeARecup = Tools.ImportBIN(@"c:\rep\comptes.bin");
+            foreach (var item in listeARecup)
+            {
+                Console.WriteLine(item);
+            }
+
+            //Serialisation XML
+            Tools.ExportXML(@"c:\rep\comptes.xml", mesComptes["crediteurs"]);
+
+            List<CompteBancaire> listeFromXML = Tools.ImportXML(@"c:\rep\comptes.xml");
+
+            //Serialisation JSON
+            Tools.ExportJSON(@"c:\rep\comptes.json", mesComptes["crediteurs"]);
+
+            List<CompteBancaire> listeFromJSON = Tools.ImportJSON(@"c:\rep\comptes.json");
+            foreach (var item in listeFromJSON)
+            {
+                Console.WriteLine(item);
+            }
+
             #endregion
 
             //Maintenir la console active

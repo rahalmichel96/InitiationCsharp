@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjetDLL.ConceptsObjets.Encapsulation
 {
+    [DataContract] //Cette annotation informe le compilateur que les objets de type CompteBancaire sont sérialisables en JSON
+    [Serializable] //Cette annotation informe le compilateur que les objets de type CompteBancaire sont sérialisables en binaire
     public class CompteBancaire
     {
         //Caractérise une classe de type objet
@@ -17,9 +20,12 @@ namespace ProjetDLL.ConceptsObjets.Encapsulation
         //Propriété de type boolean: valeur par défaut false
         //Propriété de type objet: valeur par défaut null
         #region Champs - Propriétés
-
+        //[XmlIgnore] permet d'ignorer ce champs pour la serialisation xml
+        //[NonSerialized permet d'ignorer ce champs pour la serialisation binaire
+        [DataMember]
         public string Numero { get; set; }
-        public double Solde { get; private set; }
+        [DataMember]
+        public double Solde { get; set; }
 
         //Attribut global
         public static string Banque { get; set; } = "BNP";
