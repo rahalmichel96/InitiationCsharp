@@ -116,5 +116,29 @@ namespace ProjetConsole
             }
             return prod;
         }
+
+        //Méthode qui renvoie le nombre de mots contenus dans une chaine
+        public static int NbMotsDansChaine(string chaine)
+        {
+            return chaine.Trim().Split(' ').Length;
+        }
+
+        //Méthode qui renvoie la chaine inversée
+        public static string Inverse(string chaine)
+        {
+            char[] charArray = chaine.ToCharArray();
+            char[] charArrayInverse = new char[charArray.Length];
+            for (int i = charArray.Length - 1, j = 0; i >= 0 && j < charArray.Length; i--,j++)
+            {
+                charArrayInverse[j] = charArray[i]; 
+            }
+            return string.Join("",charArrayInverse);
+        }
+
+        //Méthode qui vérifie si un mot donné est un pallindrome (chaine qui se lit de la même facon dans les 2 sens : sms, sos)
+        public static Boolean Pallindrome(string mot)
+        {
+            return Inverse(mot).Equals(mot);
+        }
     }
 }

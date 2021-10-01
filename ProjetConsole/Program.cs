@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using ProjetDLL;
 using ProjetDLL.ConceptsObjets.Abstraction;
 using ProjetDLL.ConceptsObjets.Association;
@@ -501,6 +503,182 @@ namespace ProjetConsole
                 Console.WriteLine(e.Message);
             }
 
+            #endregion
+
+            #region Class String
+            Console.WriteLine("-------------Class String-----------------");
+            //On peut créer des string sans faire appel au constructeur via une chaine littérale
+            string nouvelleChaine = " ceci est une chaine ";
+            nouvelleChaine = nouvelleChaine.ToUpper();
+            //Les objets de type string sont immuables. Une fois créés on ne peut pas les modifier en mémoire
+            Console.WriteLine(nouvelleChaine);
+
+            string nouvelleChaine2 = " CECI EST UNE CHAINE ";
+            Console.WriteLine("Comparaison du contenu: " + nouvelleChaine.Equals(nouvelleChaine2));
+            Console.WriteLine("Comparaison des références: " + object.ReferenceEquals(nouvelleChaine,nouvelleChaine2));
+
+            //Quelques méthodes
+            Console.WriteLine("Taille de la chaine: " + nouvelleChaine.Length); //21 - un objet string est un tableau de char
+            Console.WriteLine("Premier caractère de la chaine: " + nouvelleChaine[0]);
+            Console.WriteLine("La chaine commence-t-elle par C ? " + nouvelleChaine.StartsWith("C"));
+            Console.WriteLine("La chaine se termine-t-elle par un espace ? " + nouvelleChaine.EndsWith(" "));
+            Console.WriteLine("Eliminer les espaces de début et de fin de chaine: " + nouvelleChaine.Trim());
+            Console.WriteLine("Remplacer une chaine par une autre: " + nouvelleChaine.Replace("UNE CHAINE","UN PARAGRAPHE"));
+
+            //Extractions de sous chaines
+            Console.WriteLine(nouvelleChaine.Substring(1));
+            Console.WriteLine(nouvelleChaine.Substring(1, 3)); //CEC
+
+            //Chaine CSV
+            //Découpage d'une chaine: Split
+            string chaineCSV = "dawan;jehann;paris";
+            string[] tabCSV = chaineCSV.Split(';');
+            foreach (var item in tabCSV)
+            {
+                Console.WriteLine(item);
+            }
+
+            //Join
+            string[] mots = { "ceci", "est", "un", "join" };
+            string phrase = string.Join(" ", mots);
+            Console.WriteLine(phrase);
+
+            Console.WriteLine("Nombre de mots dans la chaine: " + MesMethodes.NbMotsDansChaine(nouvelleChaine));
+            Console.WriteLine("Inverse de la chaine: " + MesMethodes.Inverse(nouvelleChaine));
+            Console.WriteLine("Test Palindrome: " + MesMethodes.Pallindrome("ressasser"));
+
+            #endregion
+
+            #region Collections
+            Console.WriteLine("----------------Collections--------------");
+            //Ce sont des tableaux dynamiques (à taille variable)
+            //2 Catégories
+
+            //Les collections faiblement typées
+
+            //ArrayList
+            ArrayList list = new ArrayList();
+            Console.WriteLine("Taille du tableau dynamique: " + list.Count); //0
+            list.Add(5);
+            list.Add(false);
+            list.Add("test");
+
+            Console.WriteLine("Taille du tableau dynamique: " + list.Count); //3
+            Console.WriteLine("La liste contient-elle la chaine test ? " + list.Contains("test"));
+            list.Remove("test");
+            Console.WriteLine("La liste contient-elle la chaine test ? " + list.Contains("test"));
+            Console.WriteLine("La position du booléen: " + list.IndexOf(false)); //1
+            list.Insert(1, "dawan");
+            Console.WriteLine("La position du booléen: " + list.IndexOf(false)); //2
+
+            //Afficher le contenu du tableau
+            foreach (var elt in list)
+            {
+                Console.WriteLine(elt);
+            }
+
+            //Pile - Stack - LIFO
+            Stack pile = new Stack();
+
+            pile.Push(5);
+            pile.Push(false);
+            pile.Push("test");
+            pile.Push(15.5);
+
+            Console.WriteLine("Nombre d'éléments de la pile: " + pile.Count); //4
+            Console.WriteLine("La pile contient-elle 15.5 ? " + pile.Contains(15.5)); //True
+
+            //Supprime le dernier élément
+            pile.Pop();
+            Console.WriteLine("La pile contient-elle 15.5 ? " + pile.Contains(15.5)); //False
+            Console.WriteLine("Le dernier élément de la pile: " + pile.Peek());
+
+            //File - Queue - FIFO
+            Queue file = new Queue();
+            file.Enqueue(5);
+            file.Enqueue("test");
+            file.Enqueue(true);
+            file.Enqueue(20.2);
+
+            Console.WriteLine("Taille de fifo: " + file.Count); //4
+            Console.WriteLine("La file contient-elle le chiffre 5? " + file.Contains(5)); //True
+            file.Dequeue();
+            Console.WriteLine("La file contient-elle le chiffre 5? " + file.Contains(5)); //False
+
+            //Collections fortement typées
+
+            //List
+            List<string> jours = new List<string>();
+            Console.WriteLine("Taille de la liste: " + jours.Count); //0
+            jours.Add("lundi");
+            jours.Add("mardi");
+            jours.Add("mercredi");
+            jours.Add("jeudi");
+            jours.Add("vendredi");
+            jours.Add("samedi");
+            jours.Add("dimanche");
+            Console.WriteLine("La liste contient-elle mardi? " + jours.Contains("mardi")); //True
+            jours.Remove("mardi");
+            Console.WriteLine("La liste contient-elle mardi? " + jours.Contains("mardi")); //False
+            foreach (string jour in jours)
+            {
+                Console.WriteLine(jour);
+            }
+
+            //Vider la liste
+            jours.Clear();
+            Console.WriteLine("Taille de la liste: " + jours.Count); //0
+
+            //Dictionary : Stockage clé - valeur
+            Dictionary<int, string> dictionnaire = new Dictionary<int,string>();
+            Console.WriteLine("Taille du dictionnaire: " + dictionnaire.Count);
+            dictionnaire.Add(10, "admin");
+            dictionnaire.Add(150, "password");
+
+            //Chercher "admin"
+            if (dictionnaire.ContainsKey(10))
+            {
+                Console.WriteLine(dictionnaire[10]);
+            }
+
+            if (dictionnaire.ContainsKey(100))
+            {
+                Console.WriteLine(dictionnaire[100]);
+            } else
+            {
+                Console.WriteLine("Le dictionnaire ne contient pas la clé 100");
+            }
+
+            //Afficher les valeurs + clés du dictionnaire
+
+            foreach (int key in dictionnaire.Keys)
+            {
+                Console.WriteLine($"Cle: {key} - Valeur: {dictionnaire[key]}");
+            }
+
+            Dictionary<string, List<CompteBancaire>> mesComptes = new Dictionary<string, List<CompteBancaire>>();
+            List<CompteBancaire> debiteurs = new List<CompteBancaire>();
+            debiteurs.Add(new CompteBancaire("1255151", -1500));
+            debiteurs.Add(new CompteBancaire("1615655", -2500));
+            debiteurs.Add(new CompteBancaire("65565", -4500));
+            List<CompteBancaire> crediteurs = new List<CompteBancaire>();
+            crediteurs.Add(new CompteBancaire("565664", 1500));
+            crediteurs.Add(new CompteBancaire("54464565", 2500));
+            crediteurs.Add(new CompteBancaire("5456465", 4500));
+
+            //Ajout des deux listes dans le dictionnaire
+            mesComptes.Add("debiteurs", debiteurs);
+            mesComptes.Add("crediteurs", crediteurs);
+
+            //Afficher uniquement les comptes créditeurs
+            if (mesComptes.ContainsKey("crediteurs"))
+            {
+                foreach (CompteBancaire cpt in mesComptes["crediteurs"])
+                {
+                    Console.WriteLine(cpt.ToString());
+                }
+            } 
+            
             #endregion
 
             //Maintenir la console active
